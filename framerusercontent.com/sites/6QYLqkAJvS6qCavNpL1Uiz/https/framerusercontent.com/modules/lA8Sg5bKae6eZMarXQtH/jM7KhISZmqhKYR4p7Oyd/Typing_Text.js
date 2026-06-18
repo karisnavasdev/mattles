@@ -1,0 +1,29 @@
+import{jsx as _jsx,jsxs as _jsxs}from"react/jsx-runtime";import{useEffect,useState,useRef}from"react";import{addPropertyControls,ControlType}from"framer";import{useInView}from"framer-motion";/**
+ * Typewriter Text Component
+ *
+ * @framerDisableUnlink
+ * @framerSupportedLayoutWidth auto
+ * @framerSupportedLayoutHeight auto
+ * @framerIntrinsicWidth 400
+ * @framerIntrinsicHeight 100
+ */export default function TypewriterText(props){const{text,font,textColor,typingSpeed,cursorBlinkSpeed,showCursor,cursorChar,startDelay,loop,resetOnReenter,style}=props;const[displayedText,setDisplayedText]=useState("");const[currentIndex,setCurrentIndex]=useState(0);const[isTypingComplete,setIsTypingComplete]=useState(false);const[hasStarted,setHasStarted]=useState(false);const ref=useRef(null);const isInView=useInView(ref,{once:!resetOnReenter});const typingIntervalRef=useRef(null);useEffect(()=>{// Cleanup interval khi unmount hoặc khi deps thay đổi
+return()=>{if(typingIntervalRef.current){clearInterval(typingIntervalRef.current);}};},[]);useEffect(()=>{// Chỉ start khi component in view
+if(!isInView){// Nếu resetOnReenter = true, reset state khi ra khỏi view
+if(resetOnReenter&&hasStarted){if(typingIntervalRef.current){clearInterval(typingIntervalRef.current);}setDisplayedText("");setCurrentIndex(0);setIsTypingComplete(false);setHasStarted(false);}return;}// Reset khi text thay đổi hoặc vào lại view (nếu resetOnReenter = true)
+setDisplayedText("");setCurrentIndex(0);setIsTypingComplete(false);setHasStarted(false);// Delay trước khi bắt đầu gõ
+const startTimer=setTimeout(()=>{setHasStarted(true);startTyping();},startDelay);return()=>{clearTimeout(startTimer);if(typingIntervalRef.current){clearInterval(typingIntervalRef.current);}};},[text,typingSpeed,isInView,resetOnReenter]);const startTyping=()=>{let index=0;typingIntervalRef.current=setInterval(()=>{if(index<text.length){setDisplayedText(text.substring(0,index+1));setCurrentIndex(index+1);index++;}else{setIsTypingComplete(true);if(typingIntervalRef.current){clearInterval(typingIntervalRef.current);}// Nếu loop = true, reset sau khi hoàn thành
+if(loop){setTimeout(()=>{setDisplayedText("");setCurrentIndex(0);setIsTypingComplete(false);setHasStarted(false);setTimeout(()=>{setHasStarted(true);startTyping();},100);},1e3)// Delay 1s trước khi loop lại
+;}}},typingSpeed);};return /*#__PURE__*/_jsxs("div",{ref:ref,style:{...style,...font,color:textColor,display:"inline-flex",alignItems:"center",position:"relative",whiteSpace:"pre-wrap",wordBreak:"break-word"},children:[/*#__PURE__*/_jsx("span",{children:displayedText}),showCursor&&(!isTypingComplete||loop)&&/*#__PURE__*/_jsx("span",{style:{display:"inline-block",marginLeft:"2px",animation:hasStarted?`blink ${cursorBlinkSpeed}ms infinite`:"none"},children:cursorChar}),/*#__PURE__*/_jsx("style",{children:`
+                @keyframes blink {
+                    0%, 49% {
+                        opacity: 1;
+                    }
+                    50%, 100% {
+                        opacity: 0;
+                    }
+                }
+            `})]});}// Default Props
+TypewriterText.defaultProps={text:"Hello, World! This is a typewriter effect.",font:{fontFamily:"Inter",fontSize:24,fontWeight:"400",lineHeight:"1.5em",letterSpacing:"0em",textAlign:"left"},textColor:"#000000",typingSpeed:100,cursorBlinkSpeed:530,showCursor:true,cursorChar:"_",startDelay:500,loop:false,resetOnReenter:false};// Property Controls
+addPropertyControls(TypewriterText,{text:{type:ControlType.String,title:"Text",placeholder:"Enter your text here...",displayTextArea:true,defaultValue:TypewriterText.defaultProps.text},font:{type:ControlType.Font,title:"Typography",controls:"extended",defaultValue:TypewriterText.defaultProps.font},textColor:{type:ControlType.Color,title:"Text Color",defaultValue:TypewriterText.defaultProps.textColor},typingSpeed:{type:ControlType.Number,title:"Typing Speed",min:0,max:500,step:10,unit:"ms",displayStepper:true,defaultValue:TypewriterText.defaultProps.typingSpeed,description:"Delay between each character (lower = faster)"},startDelay:{type:ControlType.Number,title:"Start Delay",min:0,max:5e3,step:100,unit:"ms",displayStepper:true,defaultValue:TypewriterText.defaultProps.startDelay,description:"Delay before typing starts"},showCursor:{type:ControlType.Boolean,title:"Show Cursor",enabledTitle:"Visible",disabledTitle:"Hidden",defaultValue:TypewriterText.defaultProps.showCursor},cursorChar:{type:ControlType.String,title:"Cursor Character",defaultValue:TypewriterText.defaultProps.cursorChar,hidden:props=>!props.showCursor,description:"Character to use as cursor (e.g., _, |, ▋)"},cursorBlinkSpeed:{type:ControlType.Number,title:"Cursor Blink Speed",min:200,max:1500,step:50,unit:"ms",displayStepper:true,defaultValue:TypewriterText.defaultProps.cursorBlinkSpeed,hidden:props=>!props.showCursor,description:"Blink interval (lower = faster)"},loop:{type:ControlType.Boolean,title:"Loop Animation",enabledTitle:"On",disabledTitle:"Off",defaultValue:TypewriterText.defaultProps.loop,description:"Restart animation when complete"},resetOnReenter:{type:ControlType.Boolean,title:"Reset on Re-enter",enabledTitle:"On",disabledTitle:"Off",defaultValue:TypewriterText.defaultProps.resetOnReenter,description:"Reset animation when scrolling back into view"}});
+export const __FramerMetadata__ = {"exports":{"default":{"type":"reactComponent","name":"TypewriterText","slots":[],"annotations":{"framerContractVersion":"1","framerDisableUnlink":"* @framerSupportedLayoutWidth auto","framerIntrinsicHeight":"100","framerIntrinsicWidth":"400","framerSupportedLayoutHeight":"auto"}},"__FramerMetadata__":{"type":"variable"}}}
+//# sourceMappingURL=./Typing_Text.map

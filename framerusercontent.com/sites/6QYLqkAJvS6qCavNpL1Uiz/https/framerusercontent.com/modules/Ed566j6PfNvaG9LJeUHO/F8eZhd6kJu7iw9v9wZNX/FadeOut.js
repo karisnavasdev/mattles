@@ -1,0 +1,11 @@
+import{jsx as _jsx}from"react/jsx-runtime";import{useEffect,useState}from"react";export function FadeOut(){const[opacity,setOpacity]=useState(1);// Điều chỉnh các giá trị
+const DELAY_BEFORE_FADE=3500// Delay trước khi fade out (ms)
+;const FADE_OUT_DURATION=.5// Thời gian fade out (giây)
+;const FADE_OUT_EASE=[.4,0,.2,1]// Ease curve
+;useEffect(()=>{const timer=setTimeout(()=>{setOpacity(0);},DELAY_BEFORE_FADE);return()=>clearTimeout(timer);},[]);return{animate:{opacity:opacity},transition:{duration:FADE_OUT_DURATION,ease:FADE_OUT_EASE}};}export function FadeOutSlow(){const[opacity,setOpacity]=useState(1);// Điều chỉnh các giá trị
+const DELAY_BEFORE_FADE=5600// Delay trước khi fade out (ms)
+;const FADE_OUT_DURATION=.3// Thời gian fade out (giây) - chậm hơn
+;const FADE_OUT_EASE=[.19,.76,.56,1]// Ease curve
+;useEffect(()=>{const timer=setTimeout(()=>{setOpacity(0);},DELAY_BEFORE_FADE);return()=>clearTimeout(timer);},[]);return{animate:{opacity:opacity},transition:{duration:FADE_OUT_DURATION,ease:FADE_OUT_EASE}};}import{useContext as __legacyOverrideHOC_useContext}from"react";import{DataObserverContext as __legacyOverrideHOC_DataObserverContext}from"framer";export function withFadeOut(C){return props=>{__legacyOverrideHOC_useContext(__legacyOverrideHOC_DataObserverContext);return _jsx(C,{...props,...FadeOut(props)});};}withFadeOut.displayName="FadeOut";export function withFadeOutSlow(C){return props=>{__legacyOverrideHOC_useContext(__legacyOverrideHOC_DataObserverContext);return _jsx(C,{...props,...FadeOutSlow(props)});};}withFadeOutSlow.displayName="FadeOutSlow";
+export const __FramerMetadata__ = {"exports":{"FadeOutSlow":{"type":"override","name":"FadeOutSlow","annotations":{"framerContractVersion":"1"}},"withFadeOut":{"type":"reactHoc","name":"withFadeOut","annotations":{"framerContractVersion":"1"}},"FadeOut":{"type":"override","name":"FadeOut","annotations":{"framerContractVersion":"1"}},"withFadeOutSlow":{"type":"reactHoc","name":"withFadeOutSlow","annotations":{"framerContractVersion":"1"}},"__FramerMetadata__":{"type":"variable"}}}
+//# sourceMappingURL=./FadeOut.map
